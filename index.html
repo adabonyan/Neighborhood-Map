@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Neighborhood Map</title>
+
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <div id="navbar" class="navbar">
+      <div id="hamburger" class="hamburger hide" onclick="menuToggle()">
+        <div class="hamburgerIngredient"></div>
+        <div class="hamburgerIngredient"></div>
+        <div class="hamburgerIngredient"></div>
+      </div>
+
+      <h1>Neighborhood Map</h1>
+      <p id="viewMapBtn" class="viewMapBtn hide" onclick="viewMap()">&#128065;</p>      
+
+      <div id="menuList" class="dropdown-content">
+        <ul class="menuUl">
+          <li><a href='#' onclick="location.reload(true);">Refresh</a></li>
+          <li><a href='#' data-bind='click: goBack'>Show places</a></li>
+        </ul>
+      </div>
+    </div>
+      
+    <div id="container" class="container">
+      <div id="entryForm">
+        <div id="myPlace" class="boxOne">
+          <p>Do you want app to get your location
+            <button data-bind="click: getMyLocation">Yes</button><br>
+            Else
+            <input class="entryFormInput" data-bind="value: myPlace" placeholder="Enter your state, country and zip/postal code" />            
+            <button data-bind="click: myPlaceLatLng">Go</button>
+          </p> 
+        </div>
+
+        <div id="placesOfInterest" class="hide">
+          <p>Enter your places of interest, up to 5. Use short words e.g. Pizza, Thai restuarant, Museum etc. Then enter max distance for search. The default value is 1 mile or 1.6 Km
+          </p>
+
+          <p id="itemToAdd">
+            <input class="itemToAddInput" data-bind='value: itemToAdd, valueUpdate: "afterkeydown"' placeholder="Enter place of interest" />
+
+            <select class="searchRadius" data-bind='value: searchRadius'>
+              <option value="1609">1 mile</option>
+              <option value="4828">3 miles</option>
+              <option value="8047">5 miles</option>
+              <option value="16093">10 miles</option>
+            </select>
+
+            <button id="addItemBtn" data-bind="click: addItem, enable: itemToAdd().length > 0">Add</button>
+          </p>          
+        </div>
+
+        <div id="list" class="hide">
+          <p><strong>My interest are:</strong></p>
+          <ul id="myList" data-bind="foreach: items">
+            <li data-bind="text: $data"></li>
+          </ul>
+        </div>
+
+        <div id="listProcess" class="hide">          
+          <p>Want to start afresh? Click 
+            <button class="redBtn" data-bind="click: deleteAllItems">Refresh</button>
+          </p>
+                 
+          <p>If you are satisfied with your entries, click  
+           <button data-bind="click: showListings">Finish</button>
+          </p>
+        </div>
+
+        <div id="selectPlace" class="hide">
+          <section>
+            <input id="entry" class="inLine" placeholder="Enter first 2 to 3 letters" type="search" data-bind="textInput: query">
+            <button data-bind="click: search">Search</button>
+            <p class="searchNote"></p>
+          </section>
+
+          <section class="listOfplaces">
+            <b>Places of interest are:-</b>            
+            <ul id="placesUL" data-bind="foreach: placesOfInterest">
+              <li data-bind="text: name, click: $parent.display"></li>
+            </ul>
+          </section>
+        </div>
+
+        <div id="googleDetails" class="hide">
+          <div id="pano"></div>
+          <div id="placeDetail" class="placeDetail"></div>          
+          <div id="directionPanel" class="directionPanel"></div>       
+        </div>
+      </div>      
+    </div>
+    
+    <div id="flexContainer" class="hide">
+      <button id="goBackBtn" class= "goBackBtn" data-bind='click: goBack'>Back</button>
+      <div id="colorNote"></div>
+      <button id="moreDetails" class="hide"  data-bind="click: moreDetails">Details</button>
+    </div>
+     
+    <div id="map"></div>
+        
+    <script src="js/lib/jquery-3.2.1.min.js"></script>
+    <script src="js/lib/knockout-3.4.2.js"></script>
+    <script src="js/app.js"></script>
+
+    <script async defer 
+      src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyDkOzx2TRyW8FlDXk4IaFBzBlknmkWy5Nc&v3">   
+    </script>
+
+  </body>
+</html>
